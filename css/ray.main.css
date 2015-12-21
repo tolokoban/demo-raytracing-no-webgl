@@ -1,0 +1,26 @@
+body {
+    color: #eee;
+}
+
+canvas {
+  display: block;
+  margin: 5vmin auto;
+  width: 80vmin;
+  height: 80vmin;
+  box-shadow: 0 0 10px #fff;
+  max-width: 600px;
+  max-height: 600px;
+}
+
+button {
+    border: none;
+    height: 32px;
+    padding: 0 16px;
+    border-radius: 16px;
+    background-color: #9cf;
+    cursor: pointer;
+}
+
+button[disabled] {
+    background-color: #444;
+}
