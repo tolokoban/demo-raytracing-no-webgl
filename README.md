@@ -9,3 +9,6 @@ All the logic is done in the class `painter` of the file [`ray.painter.js`](http
 
 ![ray-tracing principle](ray.png)
 
+The above image is a good illustration of how ray-tracing works. Just place a screen in front of a camera and cast a light's ray through each pixel. If this ray hits a sphere, you can determine the pixel's color by looking at the angle of incidence for that collision. To get more realism, you can make the ray bounce until it reaches a light source or dies in the darkness.
+
+
