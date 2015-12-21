@@ -34,7 +34,14 @@ window['#ray.main'] = function(exports, module){
             Global.ctx.fillStyle = "#000";
             Global.ctx.fillRect(0,0,W,H);
             Global.background = Global.ctx.getImageData(0, 0, W, H);
-            Global.painter = new Painter(Global.background, W, H);
+            Global.painter = new Painter(
+                Global.background, W, H,
+                function(x, y, mx, my) {
+                    var r = Math.sqrt(x*x + y*y) / Math.max(mx, my, 0.0001);
+                    var a = Math.PI * 1 * r;
+                    return [x * Math.cos(a) + y * Math.sin(a), -x * Math.sin(a) + y * Math.cos(a)];
+                }
+            );
             window.requestAnimationFrame(paint);
 
             function move(x, y) {
