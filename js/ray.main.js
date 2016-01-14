@@ -7,15 +7,43 @@ window['#ray.main'] = function(exports, module){
         painter: null
     };
 
+    var time0 = 0;
+    var nbFrames = 20;
+    var fps = document.getElementById("fps");
     function paint(time) {
         Global.ctx.putImageData(Global.background, 0, 0);
         Global.painter.paint(time);
         window.requestAnimationFrame(paint);
+
+        if (time0 == 0) {
+            time0 = time;
+            nbFrames = 20;
+        } else {
+            nbFrames--;
+            if (nbFrames <= 0) {
+                fps.textContent = Math.floor(.5 + 20000 / (time - time0)) + " fps";
+                time0 = time;
+                nbFrames = 20;
+            }
+        }
     }
 
 
     window.setTimeout(
         function() {
+            var effect = window.localStorage.getItem("effect");
+            if (effect == null) effect = 0;
+            effect = parseInt(effect);
+            if (isNaN(effect)) effect = 0;
+            document.getElementById('effect').value = "" + effect;
+            var deform = null;
+            if (effect == 1) {
+                deform = createWhirlpool(.2);
+            }
+            else if (effect == 2) {
+                deform = createWhirlpool(.6);
+            }
+            
             var res = window.localStorage.getItem("res");
             if (res == null) res = 2;
             res = parseInt(res);
@@ -35,12 +63,7 @@ window['#ray.main'] = function(exports, module){
             Global.ctx.fillRect(0,0,W,H);
             Global.background = Global.ctx.getImageData(0, 0, W, H);
             Global.painter = new Painter(
-                Global.background, W, H,
-                function(x, y, mx, my) {
-                    var r = Math.sqrt(x*x + y*y) / Math.max(mx, my, 0.0001);
-                    var a = Math.PI * 1 * r;
-                    return [x * Math.cos(a) + y * Math.sin(a), -x * Math.sin(a) + y * Math.cos(a)];
-                }
+                Global.background, W, H, deform
             );
             window.requestAnimationFrame(paint);
 
@@ -75,4 +98,23 @@ window['#ray.main'] = function(exports, module){
         window.localStorage.setItem("res", res);
         window.location.reload();
     };
+
+    window.effect = function(select) {
+        console.info("[ray.main] select=...", select);
+        window.localStorage.setItem("effect", select.value);
+        window.location.reload();
+    };
 };
+
+
+function createWhirlpool(coeff) {
+    if (typeof coeff === 'undefined') coeff = 0;
+    coeff = parseFloat(coeff);
+    if (isNaN(coeff)) coeff = 0;
+
+    return function whirlpool(x, y, mx, my) {
+        var r = Math.sqrt(x*x + y*y) / Math.max(mx, my, 0.0001);
+        var a = Math.PI * coeff * r;
+        return [x * Math.cos(a) + y * Math.sin(a), -x * Math.sin(a) + y * Math.cos(a)];
+    };
+}

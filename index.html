@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html class="custom wtag-html custom wtag-html" id="W1">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="description" content="Ray Tracer Demo"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
-    <title>Ray Tracer Demo</title>
-    <link href="css/ray.main.css" rel="stylesheet" type="text/css"/>
-    <script src="js/ray.painter.js"></script>
-    <script src="js/require.js"></script>
-    <script src="js/ray.main.js"></script>
-    <script src="js/$.js"></script>
-    <script src="js/@ray.js"></script><style>
-      * {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      }
-      html,
-      body {
-      width: 100%;
-      height: 100%;
-      }
-      body {
-      overflow: hidden;
-      background-color: #000;
-      }
-  </style></head><body>
-    <div id="container">
-      <canvas id="canvas" width="256" height="256"></canvas>
-    </div>
-    <center>
-      <button id="res4" onclick="res(4)">Low res.</button>
-      <button id="res2" onclick="res(2)">Medium res.</button>
-      <button id="res1" onclick="res(1)">High res.</button>
-			<p>Touch and grab to change the flying direction.</p>
-    </center>
-  </body>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="description" content="Ray Tracer Demo"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
+        <title>Ray Tracer Demo</title>
+        <link href="css/ray.main.css" rel="stylesheet" type="text/css"/>
+        <script src="js/ray.painter.js"></script>
+        <script src="js/require.js"></script>
+        <script src="js/ray.main.js"></script>
+        <script src="js/$.js"></script>
+        <script src="js/@ray.js"></script>
+    </head>
+    <body>
+        <div id="fps">...</div>
+        <div id="container">
+            <canvas id="canvas" width="256" height="256"></canvas>
+        </div>
+        <center>
+            <button id="res4" onclick="res(4)">Low res.</button>
+            <button id="res2" onclick="res(2)">Medium res.</button>
+            <button id="res1" onclick="res(1)">High res.</button>
+            <p>Deformation:
+                <select id="effect" onchange="effect(this)">
+                    <option value="0">None</option>
+                    <option value="1">Light Whirlpool</option>
+                    <option value="2">Heavy Whirlpool</option>
+                </select>
+            </p>
+            <p>Touch and grab to change the flying direction.</p>
+        </center>
+    </body>
 </html>

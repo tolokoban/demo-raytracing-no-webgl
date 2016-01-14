@@ -18,6 +18,7 @@ window['#ray.painter'] = function(exports, module){
      * screen. [Red, Green, Blue, Alpha, Red, Green, ...].
      * @param W - width of the screen.
      * @param H - height of the screen.
+     * @param deform - deformation function for the raycasting.
      */
     var Painter = function(background, W, H, deform) {
         this.background = background;
@@ -44,7 +45,6 @@ window['#ray.painter'] = function(exports, module){
                 maxY = Math.max(maxY, Math.abs(yy));
             }
         }
-console.info("[ray.painter] maxX, maxY=...", maxX, maxY);
         if (typeof deform === 'function') {
             this.screen.forEach(function (itm, idx, arr) {
                 var x = itm[0];
@@ -99,7 +99,7 @@ console.info("[ray.painter] maxX, maxY=...", maxX, maxY);
         var idxX, idxY, idxZ;
         var idxRnd;
         var radius, radius2;
-        var bumpPeriod;
+        var bouncePeriod;
         for (row = 0 ; row < this.H ; row++) {
             for (col = 0 ; col < this.W ; col++) {
                 ray = this.screen[col + row * this.W];
@@ -122,9 +122,9 @@ console.info("[ray.painter] maxX, maxY=...", maxX, maxY);
                     idxRnd = (3 * idxX + 7 * idxY + 11 * idxZ) % this.random.length;
                     if (idxRnd < 0) idxRnd += this.random.length;
                     radius = RADIUS * (this.random[idxRnd + 3] / 2 + .4);
-                    bumpPeriod = this.random[idxRnd + 4] * 300 + 500;
+                    bouncePeriod = this.random[idxRnd + 4] * 300 + 500;
                     radius += radius * .1
-                        * this.cos[Math.floor(this.cos.length * time / bumpPeriod) % this.cos.length];
+                        * this.cos[Math.floor(this.cos.length * time / bouncePeriod) % this.cos.length];
                     radius2 = radius * radius;
                     if (dist < radius2) {
                         color = 1 - planZ / (7 * SPARSITY);
@@ -133,7 +133,7 @@ console.info("[ray.painter] maxX, maxY=...", maxX, maxY);
                     planZ += SPARSITY;
                     idxZ++;
                 }
-                color *= 1 - dist / radius2;
+                color *= 1 - .5 * dist / radius2;
                 color *= 255;
                 data[index    ] = color * this.random[idxRnd];
                 data[index + 1] = color * this.random[idxRnd + 1];
